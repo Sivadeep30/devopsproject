@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickBite Food Ordering App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        header {
+            background-color: #ff4500;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            padding: 0.8rem 1.2rem;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .categories {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+        
+        .category {
+            min-width: 100px;
+            text-align: center;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .food-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .food-item {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .food-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .food-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .food-info {
+            padding: 1rem;
+        }
+        
+        .food-info h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .food-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .price-add {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #ff4500;
+        }
+        
+        .add-btn {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-btn:hover {
+            background-color: #e03e00;
+        }
+        
+        .cart {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #ff4500;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: white;
+            color: #ff4500;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .cart-icon {
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .food-items {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+            
+            .category {
+                min-width: 80px;
+            }
+        }
+    </style>
+  </head>
+  <body>
+    <header>
+        <h1>QuickBite</h1>
+    </header>
+    
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" placeholder="Search for food...">
+            <button>Search</button>
+        </div>
+        
+        <div class="categories">
+            <div class="category">
+                <img src="https://images.pexels.com/photos/905847/pexels-photo-905847.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Pizza">
+                <p>Pizza</p>
+            </div>
+            <div class="category">
+                <img src="https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Burger">
+                <p>Burger</p>
+            </div>
+            <div class="category">
+                <img src="https://images.pexels.com/photos/684965/pexels-photo-684965.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Sushi">
+                <p>Sushi</p>
+            </div>
+            <div class="category">
+                <img src="https://images.pexels.com/photos/1059905/pexels-photo-1059905.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Salad">
+                <p>Salad</p>
+            </div>
+            <div class="category">
+                <img src="https://images.pexels.com/photos/1487511/pexels-photo-1487511.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Pasta">
+                <p>Pasta</p>
+            </div>
+            <div class="category">
+                <img src="https://images.pexels.com/photos/2144112/pexels-photo-2144112.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Dessert">
+                <p>Dessert</p>
+            </div>
+        </div>
+        
+        <div class="food-items">
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/4109111/pexels-photo-4109111.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Pepperoni Pizza">
+                <div class="food-info">
+                    <h3>Pepperoni Pizza</h3>
+                    <p>Classic pepperoni pizza with mozzarella cheese</p>
+                    <div class="price-add">
+                        <span class="price">$12.99</span>
+                        <button class="add-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/3219483/pexels-photo-3219483.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Veggie Burger">
+                <div class="food-info">
+                    <h3>Veggie Burger</h3>
+                    <p>Delicious veggie patty with fresh vegetables</p>
+                    <div class="price-add">
+                        <span class="price">$9.99</span>
+                        <button class="add-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Chicken Salad">
+                <div class="food-info">
+                    <h3>Chicken Salad</h3>
+                    <p>Fresh salad with grilled chicken and dressing</p>
+                    <div class="price-add">
+                        <span class="price">$8.99</span>
+                        <button class="add-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/9220822/pexels-photo-9220822.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Pasta Carbonara">
+                <div class="food-info">
+                    <h3>Pasta Carbonara</h3>
+                    <p>Creamy pasta with bacon and parmesan cheese</p>
+                    <div class="price-add">
+                        <span class="price">$11.99</span>
+                        <button class="add-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/2323398/pexels-photo-2323398.jpeg?auto=compress&cs=tinysrgb&w=400" alt="California Roll">
+                <div class="food-info">
+                    <h3>California Roll</h3>
+                    <p>Sushi roll with crab, avocado, and cucumber</p>
+                    <div class="price-add">
+                        <span class="price">$10.99</span>
+                        <button class="add-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Chocolate Cake">
+                <div class="food-info">
+                    <h3>Chocolate Cake</h3>
+                    <p>Rich chocolate cake with fudge frosting</p>
+                    <div class="price-add">
+                        <span class="price">$6.99</span>
+                        <button class="add-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cart">
+        <span class="cart-count">0</span>
+        <span class="cart-icon">🛒</span>
+    </div>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
